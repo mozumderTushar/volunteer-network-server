@@ -18,6 +18,7 @@ const port = 5000
 const client = new MongoClient(uri, { useNewUrlParser: true,  useUnifiedTopology: true });
 client.connect(err => {
   const eventCollection = client.db("volunteer").collection("events");
+  const volunteerCollection = client.db("volunteer").collection("registeredVolunteer");
   console.log('database connected');
 
   app.post('/addEvents', (req, res) => {
@@ -34,6 +35,14 @@ app.get('/allEvents',(req, res) => {
     .toArray( (err, documents) => {
         res.send(documents)
     })
+})
+
+app.post('/addVolunteer', (req, res) => {
+  const volunteer = req.body;
+  volunteerCollection.insertOne(volunteer)
+ .then(result => {
+     res.send(result.insertedCount > 0)
+ })
 })
 
 
