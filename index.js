@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config()
 
 
@@ -19,6 +20,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true,  useUnifiedTopology
 client.connect(err => {
   const eventCollection = client.db("volunteer").collection("events");
   const volunteerCollection = client.db("volunteer").collection("registeredVolunteer");
+  
   console.log('database connected');
 
   app.post('/addEvents', (req, res) => {
@@ -45,6 +47,27 @@ app.post('/addVolunteer', (req, res) => {
  })
 })
 
+app.get('/volunteer',(req, res) => {
+  volunteerCollection.find({email: req.query.email})
+  .toArray( (err, documents) => {
+      res.send(documents)
+  })
+})
+
+app.get('/allVolunteer',(req, res) => {
+  volunteerCollection.find({})
+  .toArray( (err, documents) => {
+      res.send(documents)
+  })
+})
+
+app.delete('/delete/:id', (req, res) => {
+  console.log(req.params.id)
+  volunteerCollection.deleteOne({_id: ObjectId(req.params.id)})
+  .then(result => {
+    res.send(result.deletedCount > 0)
+  })
+})
 
 });
 
