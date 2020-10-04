@@ -16,61 +16,58 @@ app.use(cors())
 const port = 5000
 
 
-const client = new MongoClient(uri, { useNewUrlParser: true,  useUnifiedTopology: true });
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const eventCollection = client.db("volunteer").collection("events");
   const volunteerCollection = client.db("volunteer").collection("registeredVolunteer");
-  
-  console.log('database connected');
 
   app.post('/addEvents', (req, res) => {
     const event = req.body;
-   eventCollection.insertMany(event)
-   .then(result => {
-       console.log(result.insertedCount)
-       res.send(result.insertedCount)
-   })
-})
+    eventCollection.insertMany(event)
+      .then(result => {
+        console.log(result.insertedCount)
+        res.send(result.insertedCount)
+      })
+  })
 
-app.get('/allEvents',(req, res) => {
+  app.get('/allEvents', (req, res) => {
     eventCollection.find({})
-    .toArray( (err, documents) => {
+      .toArray((err, documents) => {
         res.send(documents)
-    })
-})
-
-app.post('/addVolunteer', (req, res) => {
-  const volunteer = req.body;
-  volunteerCollection.insertOne(volunteer)
- .then(result => {
-     res.send(result.insertedCount > 0)
- })
-})
-
-app.get('/volunteer',(req, res) => {
-  volunteerCollection.find({email: req.query.email})
-  .toArray( (err, documents) => {
-      res.send(documents)
+      })
   })
-})
 
-app.get('/allVolunteer',(req, res) => {
-  volunteerCollection.find({})
-  .toArray( (err, documents) => {
-      res.send(documents)
+  app.post('/addVolunteer', (req, res) => {
+    const volunteer = req.body;
+    volunteerCollection.insertOne(volunteer)
+      .then(result => {
+        res.send(result.insertedCount > 0)
+      })
   })
-})
 
-app.delete('/delete/:id', (req, res) => {
-  console.log(req.params.id)
-  volunteerCollection.deleteOne({_id: ObjectId(req.params.id)})
-  .then(result => {
-    res.send(result.deletedCount > 0)
+  app.get('/volunteer', (req, res) => {
+    volunteerCollection.find({ email: req.query.email })
+      .toArray((err, documents) => {
+        res.send(documents)
+      })
   })
-})
+
+  app.get('/allVolunteer', (req, res) => {
+    volunteerCollection.find({})
+      .toArray((err, documents) => {
+        res.send(documents)
+      })
+  })
+
+  app.delete('/delete/:id', (req, res) => {
+    console.log(req.params.id)
+    volunteerCollection.deleteOne({ _id: ObjectId(req.params.id) })
+      .then(result => {
+        res.send(result.deletedCount > 0)
+      })
+  })
 
 });
-
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
