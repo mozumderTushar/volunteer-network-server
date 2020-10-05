@@ -21,6 +21,8 @@ client.connect(err => {
   const eventCollection = client.db("volunteer").collection("events");
   const volunteerCollection = client.db("volunteer").collection("registeredVolunteer");
 
+  console.log('db connected')
+
   //post all fakeData to server
   app.post('/addEvents', (req, res) => {
     const event = req.body;
@@ -28,6 +30,16 @@ client.connect(err => {
       .then(result => {
         console.log(result.insertedCount)
         res.send(result.insertedCount)
+      })
+  })
+
+  // post single event to server
+  app.post('/singleEvent', (req, res) => {
+    const event = req.body;
+    eventCollection.insertOne(event)
+      .then(result => {
+        console.log(result)
+        res.send(result)
       })
   })
 
