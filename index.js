@@ -21,6 +21,7 @@ client.connect(err => {
   const eventCollection = client.db("volunteer").collection("events");
   const volunteerCollection = client.db("volunteer").collection("registeredVolunteer");
 
+  //post all fakeData to server
   app.post('/addEvents', (req, res) => {
     const event = req.body;
     eventCollection.insertMany(event)
@@ -30,6 +31,7 @@ client.connect(err => {
       })
   })
 
+  //get all events from server
   app.get('/allEvents', (req, res) => {
     eventCollection.find({})
       .toArray((err, documents) => {
@@ -37,6 +39,7 @@ client.connect(err => {
       })
   })
 
+  //add volunteer info from register
   app.post('/addVolunteer', (req, res) => {
     const volunteer = req.body;
     volunteerCollection.insertOne(volunteer)
@@ -45,6 +48,7 @@ client.connect(err => {
       })
   })
 
+  //get registered volunteer through email
   app.get('/volunteer', (req, res) => {
     volunteerCollection.find({ email: req.query.email })
       .toArray((err, documents) => {
@@ -52,6 +56,7 @@ client.connect(err => {
       })
   })
 
+  //get all registered volunteer
   app.get('/allVolunteer', (req, res) => {
     volunteerCollection.find({})
       .toArray((err, documents) => {
@@ -59,6 +64,7 @@ client.connect(err => {
       })
   })
 
+  //delete 
   app.delete('/delete/:id', (req, res) => {
     console.log(req.params.id)
     volunteerCollection.deleteOne({ _id: ObjectId(req.params.id) })
