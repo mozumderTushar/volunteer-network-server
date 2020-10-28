@@ -1,6 +1,6 @@
 # VOLUNTEER NETWORK - A VOLUNTEERING SPA
 
-![volunteer](https://i.ibb.co/Dkc10h4/1-Landing-page.png)
+![volunteer](https://i.ibb.co/vJ36rM4/Group-1329.png)
 
 **[LIVE WEBSITE](https://volunteer-network-ccdb0.web.app/)** | **[LIVE API SERVER](https://stormy-temple-22049.herokuapp.com/)**
 
