@@ -24,7 +24,7 @@
 *   MongoDB
 *   Heroku
 
-**[BACK END REPOSITORY](https://github.com/mozumderTushar/volunteer-network-server.git)**
+**[FRONT END REPOSITORY](https://github.com/mozumderTushar/volunteer-network-client.git)**
 
 
 
